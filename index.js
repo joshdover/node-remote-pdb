@@ -1,57 +1,6 @@
-var _ = require('lodash');
-var telnet = require('telnet-client');
-var connection = new telnet();
-
-var COMMANDS = [
-  'EOF',
-  'bt',
-  'cont',
-  'enable',
-  'jump',
-  'pp',
-  'run',
-  'unt',
-  'a',
-  'c',
-  'continue',
-  'exit',
-  'l',
-  'q',
-  's',
-  'until',
-  'alias',
-  'cl',
-  'd',
-  'h',
-  'list',
-  'quit',
-  'step',
-  'up',
-  'args',
-  'clear',
-  'debug',
-  'help',
-  'n',
-  'r',
-  'tbreak',
-  'w',
-  'b',
-  'commands',
-  'disable',
-  'ignore',
-  'next',
-  'restart',
-  'u',
-  'whatis',
-  'break',
-  'condition',
-  'down',
-  'j',
-  'p',
-  'return',
-  'unalias',
-  'where'
-];
+var _        = require('lodash');
+var telnet   = require('telnet-client');
+var commands = require('./commands');
 
 function Pdb() {
   this.connection = new telnet();
@@ -73,7 +22,7 @@ function filterArrow(response) {
   return response.replace('-> ', '');
 };
 
-_.each(COMMANDS, function(commandName) {
+_.each(commands, function(commandName) {
   Pdb.prototype[commandName] = function() {
     command = arguments.length
       ? commandName + ' ' + Array.prototype.slice.call(arguments).join(' ')
