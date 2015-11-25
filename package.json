@@ -1,0 +1,29 @@
+{
+  "name": "node-remote-pdb",
+  "version": "0.1.0",
+  "description": "A node client for controlling a remote-pdb instance",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joshdover/node-remote-pdb.git"
+  },
+  "keywords": [
+    "python",
+    "debugger",
+    "remote",
+    "telnet"
+  ],
+  "author": "Josh Dover",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/joshdover/node-remote-pdb/issues"
+  },
+  "homepage": "https://github.com/joshdover/node-remote-pdb#readme",
+  "dependencies": {
+    "lodash": "^3.10.1",
+    "telnet-client": "^0.4.1"
+  }
+}
