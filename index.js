@@ -8,7 +8,9 @@ function Pdb() {
 
 Pdb.prototype.connect = function(connectionParams) {
   connectionParams = _.extend({
-    shellPrompt: '(Pdb)'
+    shellPrompt: '(Pdb)',
+    irs: '\r\n',
+    ors: '\n\n'
   }, connectionParams);
 
   return this.connection.connect(connectionParams);
@@ -18,8 +20,29 @@ Pdb.prototype.close = function() {
   return this.connection.close();
 };
 
-function filterArrow(response) {
-  return response.replace('-> ', '');
+var whereParser = function(output) {
+  console.log(output);
+  var parts = /\>\s(.*)\(([0-9])+\)\<module\>\(\)$/.exec(output);
+
+  return {
+    file: parts[0],
+    lineNumber: parts[1]
+  }
+};
+
+Pdb.prototype.currentLocation = function() {
+  return this
+    .where()
+    .then(whereParser);
+};
+
+function outputFilter(response) {
+  response = response.replace(/^-> /, '');
+  response = response.replace(/\n-> /, '\n');
+
+  response = response.replace(/\(Pdb\)\s/, '');
+
+  return response;
 };
 
 _.each(commands, function(commandName) {
@@ -29,8 +52,8 @@ _.each(commands, function(commandName) {
       : commandName;
 
     return this.connection
-      .exec(command)
-      .then(filterArrow);
+      .exec(command, { echoLines: 1 })
+      .then(outputFilter);
   };
 });
 
